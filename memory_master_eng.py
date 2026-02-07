@@ -231,38 +231,37 @@ class MemoryMasterUltimate:
 
         num_shown = len(self.target_set)
 
-        # 1. Clean the user input: lowercase, remove spaces, and ignore empty entries
-        user_clean = [c.strip().lower() for c in self.user_choices if c.strip()]
-        target_clean = [t.strip().lower() for t in self.target_set]
+        # ניקוי רשימת הבחירות של המשתמש (הסרת כפילויות ורווחים)
+        user_clean = list(set([c.strip().lower() if isinstance(c, str) else c for c in self.user_choices if c]))
+        target_clean = [t.strip().lower() if isinstance(t, str) else t for t in self.target_set]
 
-        # 2. Check matches
+        # חישוב הצלחות
         correct = [c for c in user_clean if c in target_clean]
         missed = [m for m in target_clean if m not in user_clean]
         wrong_picks = [w for w in user_clean if w not in target_clean]
 
-        # 3. Calculate score
         score = (len(correct) / num_shown) * 100 if num_shown > 0 else 0
 
         self.score_lbl.config(text=f"Score: {score:.0f}%")
-        self.pass_lbl.config(text=f"Correct: {', '.join(correct) if correct else 'None'}")
+        self.pass_lbl.config(text=f"Correct: {len(correct)} of {num_shown}")
 
         fail_msg = ""
-        if missed: fail_msg += f"Missed: {', '.join(missed)} "
-        if wrong_picks: fail_msg += f"Wrong: {', '.join(wrong_picks)}"
+        if missed: fail_msg += f"Missed: {len(missed)} "
+        if wrong_picks: fail_msg += f"Wrong: {len(wrong_picks)}"
         self.fail_lbl.config(text=fail_msg)
 
-        # 4. Level Up Logic - FIXED
-        mode = self.mode_var.get()  # This gets "Words", "Shapes", etc.
+        # לוגיקת עליית רמה מעודכנת - עובדת לכל המצבים
+        mode = self.mode_var.get()
 
-        # If score is 100%, we increase level, regardless of extra commas
+        # אם הציון הוא 100%, עולים רמה. אין צורך לבדוק את אורך הרשימה.
         if score == 100:
             self.all_data[self.current_user]["levels"][mode] += 1
-            print(f"Level Up! New level for {mode}: {self.all_data[self.current_user]['levels'][mode]}")
         elif score < 50 and self.all_data[self.current_user]["levels"][mode] > 1:
             self.all_data[self.current_user]["levels"][mode] -= 1
 
         self.save_data()
-        self.update_lvl_display()  # This refreshes the label on top
+        self.update_lvl_display()
+
 
     def show_achievements(self):
         win = tk.Toplevel(self.root)
