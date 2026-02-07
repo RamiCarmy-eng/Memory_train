@@ -18,7 +18,6 @@ def resource_path(relative_path):
         base_path = Path.cwd()
     return Path(base_path) / relative_path
 
-
 # Updated Paths:
 SHAPES_FOLDER = resource_path("training_shapes")
 IMAGE_FOLDER = resource_path("training_images")
@@ -259,7 +258,6 @@ class MemoryMasterUltimate:
 
         self.save_data()
         self.update_lvl_display()
-
 
     def show_achievements(self):
         win = tk.Toplevel(self.root)
