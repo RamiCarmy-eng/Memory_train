@@ -1,0 +1,50 @@
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+
+# --- Virtual environments ---
+env/
+venv/
+.venv/
+myai_env/
+*/Lib/
+*/Scripts/
+*/bin/
+
+
+
+# --- Excel / CSV / Data files ---
+*.xlsx
+*.xls
+*.csv
+*.tsv
+
+
+# --- Logs ---
+*.log
+
+# --- Large binaries (prevent GitHub errors) ---
+*.exe
+*.dll
+*.lib
+*.pkg
+*.whl
+*.zip
+*.tar
+*.gz
+*.7z
+*.iso
+
+
+# --- IDE / Editor files ---
+.vscode/
+.idea/
+*.code-workspace
+
+# --- OS files ---
+.DS_Store
+Thumbs.db
+
