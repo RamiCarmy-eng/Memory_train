@@ -11,7 +11,7 @@ from PIL import Image, ImageTk
 DATA_FILE = Path.cwd() / "memory_master_data.json"
 SHAPES_FOLDER = Path.cwd() / "training_shapes"
 IMAGE_FOLDER = Path.cwd() / "training_images"
-WORDS_FILE = Path.cwd() / "my_dictionary.txt"
+WORDS_FILE = Path.cwd() / "my_dictionary_heb.txt"
 
 
 class MemoryMasterUltimate:

@@ -20,7 +20,7 @@ def resource_path(relative_path):
 # הגדרת הנתיבים המעודכנת:
 SHAPES_FOLDER = resource_path("training_shapes")
 IMAGE_FOLDER = resource_path("training_images")
-WORDS_FILE = resource_path("my_dictionary.txt")
+WORDS_FILE = resource_path("my_dictionary_heb.txt")
 # שימו לב: את קובץ ה-JSON (הנתונים) נשאיר ב-Path.cwd() כי אנחנו רוצים שהוא יישמר ליד ה-EXE ולא יימחק
 DATA_FILE = Path.cwd() / "memory_master_data.json"
 
