@@ -1,52 +1,78 @@
-# 🧠 Memory Master Pro
+🧠 Memory Master Pro (English Edition)
+Memory Master Pro is an interactive memory training application built in Python. The system helps improve visual and verbal memory through various exercise types, personal progress tracking, and visual feedback.
 
-**Memory Master Pro** היא אפליקציית אימון זיכרון אינטראקטיבית שנבנתה ב-Python. המערכת עוזרת לשפר את הזיכרון החזותי והמילולי באמצעות סוגי תרגילים שונים, מעקב אחר התקדמות אישית וגרפים ויזואליים.
+✨ Key Features
+Four Training Modes:
 
+🔵 Shapes: Memorize and identify geometric shapes.
 
+🖼️ Images: Memorize general images from a local directory.
 
-## ✨ תכונות עיקריות
-* **ארבעה מצבי אימון:**
-    * 🔵 **צורות:** שינון צורות גיאומטריות.
-    * 🖼️ **תמונות:** שינון תמונות מתיקיית אימון.
-    * 🔢 **מספרים:** זיכרון של רצפי מספרים אקראיים.
-    * 📝 **מילים:** עבודה עם מילון אישי (`my_dictionary.txt`).
-* **ניהול משתמשים:** תמיכה במספר משתמשים (רמי, אתי, ליאור וכו') עם שמירת רמות נפרדת לכל אחד.
-* **מנגנון רמות חכם:** הצלחה של 100% מעלה אותך רמה; ציון נמוך מ-50% מוריד רמה.
-* **דיווח מפורט:** בסוף כל תרגיל מוצג פירוט של מה שזכרת נכון, מה שפספסת וטעויות בבחירה.
-* **גרף התקדמות:** הצגה ויזואלית של הרמות הנוכחיות בכל מצבי המשחק.
+🔢 Numbers: Remember random numeric sequences.
 
-## 🚀 איך מפעילים?
-1.  ודא שמותקן אצלך **Python 3.x**.
-2.  ודא שקיימות התיקיות הבאות באותו נתיב של הקוד:
-    * `training_shapes/` (עבור תמונות של צורות)
-    * `training_images/` (עבור תמונות כלליות)
-3.  (אופציונלי) צור קובץ בשם `my_dictionary.txt` והוסף בו מילים (מילה בכל שורה).
-4.  התקן את ספריית Pillow להצגת תמונות:
-    ```bash
-    pip install Pillow
-    ```
-5.  הריץ את הקובץ:
-    ```bash
-    python memory_master.py
-    ```
+📝 Words: Practice with a personal vocabulary list (my_dictionary.txt).
 
+User Management: Supports multiple users with independent level tracking for each person.
 
+Smart Leveling Engine: * Level Up: Achieve 100% score to advance.
 
-## 🛠️ טכנולוגיות
-* **GUI:** Tkinter (הספרייה הסטנדרטית של פייתון).
-* **Image Processing:** PIL/Pillow.
-* **Data Storage:** JSON (לשמירת התקדמות המשתמשים).
+Level Down: Scoring below 50% reduces your level.
 
-## 📊 מבנה הנתונים
-האפליקציה שומרת את הנתונים בקובץ `memory_master_data.json`. המבנה כולל רמות לכל משתמש בכל אחד מהמודים:
-```json
+Detailed Feedback: Displays exactly what you remembered, what you missed, and any wrong selections.
+
+Improved Input Logic: Case-insensitive word matching and automatic space cleaning for a smoother experience.
+
+🚀 How to Run
+Ensure Python 3.x is installed.
+
+Prepare the required asset folders in the same directory as the script:
+
+training_shapes/ (Place shape images here)
+
+training_images/ (Place general images here)
+
+Prepare your vocabulary file:
+
+Create my_dictionary.txt and add words (one word per line).
+
+Note: Using lowercase is recommended.
+
+Install the required library for image processing:
+
+Bash
+pip install Pillow
+Run the application:
+
+Bash
+python main.py
+📦 Building the EXE
+To create a standalone executable that includes your dictionary and images:
+
+PowerShell
+pyinstaller --onefile --windowed `
+--add-data "training_shapes;training_shapes" `
+--add-data "training_images;training_images" `
+--add-data "my_dictionary.txt;." `
+--name "MemoryMaster_Pro" `
+main.py
+🛠️ Technologies
+GUI: Tkinter (Standard Python Library).
+
+Image Processing: PIL (Pillow).
+
+Data Storage: JSON (For persistent user progress).
+
+📊 Data Structure
+The application stores progress in memory_master_data.json. The keys are now synchronized with the English UI:
+
+JSON
 {
-    "רמי": {
+    "User_Name": {
         "levels": {
-            "צורות": 5,
-            "תמונות": 3,
-            "מילים": 2,
-            "מספרים": 4
+            "Shapes": 5,
+            "Images": 3,
+            "Numbers": 4,
+            "Words": 2
         }
     }
 }

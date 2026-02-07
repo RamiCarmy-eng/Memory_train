@@ -231,29 +231,27 @@ class MemoryMasterUltimate:
 
         num_shown = len(self.target_set)
 
-        # ניקוי רשימת הבחירות של המשתמש (הסרת כפילויות ורווחים)
-        user_clean = list(set([c.strip().lower() if isinstance(c, str) else c for c in self.user_choices if c]))
-        target_clean = [t.strip().lower() if isinstance(t, str) else t for t in self.target_set]
+        # We clean the input but we DON'T change the UI labels you chose
+        user_clean = [c.strip().lower() for c in self.user_choices if c.strip()]
+        target_clean = [t.strip().lower() for t in self.target_set]
 
-        # חישוב הצלחות
         correct = [c for c in user_clean if c in target_clean]
         missed = [m for m in target_clean if m not in user_clean]
         wrong_picks = [w for w in user_clean if w not in target_clean]
 
         score = (len(correct) / num_shown) * 100 if num_shown > 0 else 0
 
+        # KEEPING YOUR EXACT LABELS
         self.score_lbl.config(text=f"Score: {score:.0f}%")
-        self.pass_lbl.config(text=f"Correct: {len(correct)} of {num_shown}")
+        self.pass_lbl.config(text=f"Correct: {', '.join(correct) if correct else 'None'}")
 
         fail_msg = ""
-        if missed: fail_msg += f"Missed: {len(missed)} "
-        if wrong_picks: fail_msg += f"Wrong: {len(wrong_picks)}"
+        if missed: fail_msg += f"Missed: {', '.join(missed)} "
+        if wrong_picks: fail_msg += f"Wrong: {', '.join(wrong_picks)}"
         self.fail_lbl.config(text=fail_msg)
 
-        # לוגיקת עליית רמה מעודכנת - עובדת לכל המצבים
+        # THE FIX: Only check the score (just like the Hebrew version)
         mode = self.mode_var.get()
-
-        # אם הציון הוא 100%, עולים רמה. אין צורך לבדוק את אורך הרשימה.
         if score == 100:
             self.all_data[self.current_user]["levels"][mode] += 1
         elif score < 50 and self.all_data[self.current_user]["levels"][mode] > 1:
