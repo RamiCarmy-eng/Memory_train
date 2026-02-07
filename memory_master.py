@@ -3,7 +3,7 @@ import random
 import sys
 import tkinter as tk
 from pathlib import Path
-from tkinter import ttk, simpledialog
+from tkinter import ttk, simpledialog, messagebox
 
 from PIL import Image, ImageTk
 
@@ -41,20 +41,39 @@ class MemoryMasterUltimate:
             self.all_data = {u: {"levels": {"צורות": 1, "תמונות": 1, "מילים": 1, "מספרים": 1}} for u in users}
             self.save_data()
 
+    def add_new_user(self):
+        new_name = simpledialog.askstring("משתמש חדש", "הקלד שם משתמש:")
+        if new_name:
+            if new_name in self.all_data:
+                messagebox.showwarning("שגיאה", "משתמש זה כבר קיים!")
+            else:
+                # יצירת פרופיל חדש עם רמות התחלתיות
+                self.all_data[new_name] = {"levels": {"צורות": 1, "תמונות": 1, "מילים": 1, "מספרים": 1}}
+                self.save_data()
+                self.show_login_screen()  # רענון המסך כדי שהשם יופיע ברשימה
+
     def show_login_screen(self):
         for w in self.root.winfo_children(): w.destroy()
         self.current_user = None
         frame = tk.Frame(self.root)
         frame.pack(expand=True)
         tk.Label(frame, text="Memory Master Pro", font=("Arial", 32, "bold")).pack(pady=30)
+
         self.user_var = tk.StringVar()
         user_list = list(self.all_data.keys())
         combo = ttk.Combobox(frame, textvariable=self.user_var, values=user_list, state="readonly", font=("Arial", 16))
         combo.pack(pady=10, ipady=5)
         if user_list: combo.current(0)
+
+        # כפתור כניסה
         tk.Button(frame, text="כניסה", command=self.login, bg="#27ae60", fg="white", font=("Arial", 16, "bold"),
-                  width=15).pack(pady=20)
-        tk.Button(frame, text="צפה בהישגים", command=self.show_achievements, bg="#9b59b6", fg="white").pack()
+                  width=15).pack(pady=10)
+
+        # כפתור הוספת משתמש חדש (החזרתי אותו!)
+        tk.Button(frame, text="➕ משתמש חדש", command=self.add_new_user, bg="#3498db", fg="white",
+                  font=("Arial", 12)).pack(pady=5)
+
+        tk.Button(frame, text="צפה בהישגים", command=self.show_achievements, bg="#9b59b6", fg="white").pack(pady=10)
 
     def login(self):
         if self.user_var.get():
