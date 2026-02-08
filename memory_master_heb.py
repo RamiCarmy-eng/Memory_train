@@ -52,15 +52,31 @@ class MemoryMasterUltimate:
             self.save_data()
 
     def add_new_user(self):
-        new_name = simpledialog.askstring("משתמש חדש", "הקלד שם משתמש:")
+        new_name = simpledialog.askstring("משתמש חדש", "הקלד שם משתמש חדש:")
         if new_name:
             if new_name in self.all_data:
                 messagebox.showwarning("שגיאה", "משתמש זה כבר קיים!")
             else:
-                # יצירת פרופיל חדש עם רמות התחלתיות
-                self.all_data[new_name] = {"levels": {"צורות": 1, "תמונות": 1, "מילים": 1, "מספרים": 1}}
+                # בקשת סיסמה עבור המשתמש החדש
+                new_pwd = simpledialog.askstring(
+                    "אבטחה",
+                    f"קבע סיסמה עבור {new_name}:",
+                    show="*"
+                )
+
+                # אם המשתמש לחץ על ביטול, לא ניצור את המשתמש
+                if new_pwd is None:
+                    return
+
+                # הוספת המשתמש עם הסיסמה שבחר
+                self.all_data[new_name] = {
+                    "password": new_pwd,
+                    "levels": {"צורות": 1, "תמונות": 1, "מילים": 1, "מספרים": 1}
+                }
+
                 self.save_data()
-                self.show_login_screen()  # רענון המסך כדי שהשם יופיע ברשימה
+                self.show_login_screen()
+                messagebox.showinfo("הצלחה", f"המשתמש {new_name} נוצר בהצלחה!")
 
     def show_login_screen(self):
         for w in self.root.winfo_children(): w.destroy()
@@ -86,9 +102,24 @@ class MemoryMasterUltimate:
         tk.Button(frame, text="צפה בהישגים", command=self.show_achievements, bg="#9b59b6", fg="white").pack(pady=10)
 
     def login(self):
-        if self.user_var.get():
-            self.current_user = self.user_var.get()
+        user = self.user_var.get()
+        if not user:
+            return
+
+        pwd = simpledialog.askstring(
+            "סיסמה",
+            f"הכנס סיסמה עבור {user}:",
+            show="*"
+        )
+
+        if pwd is None:
+            return  # ביטול
+
+        if pwd == self.all_data[user].get("password"):
+            self.current_user = user
             self.setup_main_layout()
+        else:
+            messagebox.showerror("שגיאה", "סיסמה שגויה")
 
     def setup_main_layout(self):
         for w in self.root.winfo_children(): w.destroy()
